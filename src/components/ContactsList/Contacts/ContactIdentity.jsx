@@ -3,25 +3,28 @@ import PropTypes from 'prop-types'
 
 import { Avatar } from 'cozy-ui/transpiled/react/Avatar'
 import ContactName from './ContactName'
-import contactPropTypes from '../../ContactPropTypes'
-import { getInitials } from '../../../helpers/contacts'
+import { models } from 'cozy-client'
+const { getDisplayName, getInitials } = models.contact
 
 const MyselfMarker = (props, { t }) => (
   <span className="contact-myself">({t('me')})</span>
 )
-const ContactIdentity = ({ name, displayName, myself }) => (
-  <div className="contact-identity">
-    <Avatar text={getInitials(name).toUpperCase()} size="small" />
-    <ContactName displayName={displayName} lastname={name.familyName} />
-    {myself && <MyselfMarker />}
-  </div>
-)
-ContactIdentity.propTypes = {
-  name: contactPropTypes.name.isRequired,
-  myself: PropTypes.bool
+
+const ContactIdentity = ({ contact }) => {
+  const name = contact.name || {}
+  const displayName = getDisplayName(contact) || undefined
+  const isMyself = contact.metadata ? !!contact.metadata.me : false
+
+  return (
+    <div className="contact-identity">
+      <Avatar text={getInitials(contact)} size="small" />
+      <ContactName displayName={displayName} lastname={name.familyName} />
+      {isMyself && <MyselfMarker />}
+    </div>
+  )
 }
-ContactIdentity.defaultProps = {
-  myself: false
+ContactIdentity.propTypes = {
+  contact: PropTypes.object.isRequired
 }
 
 export default ContactIdentity
