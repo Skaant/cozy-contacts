@@ -58,16 +58,13 @@ exports[`ContactsListOrSpinner should display the contact List 1`] = `
               <div
                 className="u-ellipsis"
               >
-                <span
-                  className="contact-firstname"
-                >
-                  
-                </span>
-                 
-                <span
-                  className="contact-lastname"
-                >
-                  
+                <span>
+                  <span
+                    className="u-ml-1"
+                  >
+                    johndoe@localhost
+                  </span>
+                   
                 </span>
               </div>
             </div>
